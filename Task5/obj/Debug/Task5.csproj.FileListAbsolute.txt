@@ -1,0 +1,9 @@
+D:\MMCS\Computer Graphics\Task5\Task5\bin\Debug\Task5.exe.config
+D:\MMCS\Computer Graphics\Task5\Task5\bin\Debug\Task5.exe
+D:\MMCS\Computer Graphics\Task5\Task5\bin\Debug\Task5.pdb
+D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.csproj.AssemblyReference.cache
+D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.Properties.Resources.resources
+D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.csproj.GenerateResource.cache
+D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.csproj.CoreCompileInputs.cache
+D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.exe
+D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.pdb
