@@ -136,10 +136,11 @@ namespace Task5
             //matrix.TransformPoints(arr);
             //matrix = new Matrix();
             //matrix.Scale(scaleX,scaleY);
-            matrix.Translate(-minX, -minY);
+            var scale = Math.Min(scaleX, scaleY);
+            matrix.Translate(-scale,-scale);
             matrix.TransformPoints(arr);
-            matrix.Translate(minX, minY);
-            matrix.Scale(scaleX, scaleY);   
+            matrix.Translate(scale, scale);
+            matrix.Scale(scaleX, scaleX);   
             matrix.TransformPoints(arr);
             return arr;
         }
