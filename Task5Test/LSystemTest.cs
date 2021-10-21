@@ -7,7 +7,7 @@ namespace Task5Test
     [TestClass]
     public class LSystemTest
     {
-        const string inputPath = @"..\..\..\Input\";
+        const string inputPath = @"..\..\Input\";
       
         [TestMethod]
         public void TestInput()

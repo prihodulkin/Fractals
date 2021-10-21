@@ -8,3 +8,4 @@ D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.csproj.CoreCompileInputs.c
 D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.exe
 D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.pdb
 D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.StartForm.resources
+D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.Form1.resources

@@ -9,9 +9,20 @@ using System.Drawing.Drawing2D;
 
 namespace Task5
 {
-  
+   
     public class LSystem
     {
+        public struct Params
+        {
+            public string str;
+            public int initialAngle;
+            public Params(string str, int initialAngle)
+            {
+                this.str = str;
+                this.initialAngle = initialAngle;
+            }
+        }
+
         string axiom;
         Dictionary<char, string> rules;
         int rotateAngle;
@@ -70,14 +81,21 @@ namespace Task5
             ++stepNum;
         }
 
-        double ConvertToRadians(double angle)
+        static double ConvertToRadians(double angle)
         {
             return (Math.PI / 180) * angle;
         }
 
-        public Point[] Apply(int width, int height)
+        public  Point[] Apply( int width, int height)
+        {
+            return LSystem.Apply(new Params(currentState, initialAngle), width, height);
+        }
+
+        public static Point[] Apply(LSystem.Params p, int width, int height)
         {
             int lineLength = 1000;
+            width -= width / 10;
+            height -= height / 10;
             List<Point> result = new List<Point>();
             double x = 0;
             double y = 0;
@@ -86,8 +104,8 @@ namespace Task5
             int maxY = 0;
             int minY = 0;
             result.Add(new Point((int)Math.Round(x), (int)Math.Round(y)));
-            var angle = initialAngle;
-            foreach(var c in currentState)
+            var angle = p.initialAngle;
+            foreach (var c in p.str)
             {
                 if (c == '+')
                 {
@@ -100,19 +118,21 @@ namespace Task5
                 if (c == '-')
                 {
                     angle -= 60;
-                    if (angle <0)
+                    if (angle < 0)
                     {
-                        angle+= 360;
+                        angle += 360;
                     }
                 }
-                if(c == 'F')
+                if (c == 'F')
                 {
                     x += lineLength * Math.Cos(ConvertToRadians(angle));
                     y += lineLength * Math.Sin(ConvertToRadians(angle));
                     result.Add(new Point((int)Math.Round(x), (int)Math.Round(y)));
-                    if (x > maxX){
+                    if (x > maxX)
+                    {
                         maxX = (int)Math.Ceiling(x);
-                    } else if(x < minX)
+                    }
+                    else if (x < minX)
                     {
                         minX = (int)Math.Floor(x);
                     }
@@ -129,21 +149,24 @@ namespace Task5
             Matrix matrix = new Matrix();
             var w = (float)(maxX - minX);
             var h = (float)(maxY - minY);
-            var scaleX = w>0?(float)width /w : 1;
-            var scaleY = h>0?(float)height / h  : 1 ;
-            var arr = result.ToArray();
-            //matrix.Translate(-minX,- minY);
-            //matrix.TransformPoints(arr);
-            //matrix = new Matrix();
-            //matrix.Scale(scaleX,scaleY);
+            var scaleX = w > 0 ? (float)width / w : 1;
+            var scaleY = h > 0 ? (float)height / h : 1;
             var scale = Math.Min(scaleX, scaleY);
-            matrix.Translate(-scale,-scale);
+            var arr = result.ToArray();
+            matrix.Translate(-minX, -minY);
             matrix.TransformPoints(arr);
-            matrix.Translate(scale, scale);
-            matrix.Scale(scaleX, scaleX);   
+            matrix = new Matrix();
+            matrix.Scale(scaleX, scaleY);
             matrix.TransformPoints(arr);
+            //matrix.Translate(-scale, -scale);
+            //matrix.TransformPoints(arr);
+            //matrix.Translate(scale, scale);
+            //matrix.Scale(scaleX, scaleX);
+           
             return arr;
         }
 
     }
+
+
 }
