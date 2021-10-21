@@ -105,14 +105,21 @@ namespace Task5
         {
 
         }
+        private void turnOverFractal(Point[] fractal)
+        {
+            var h = pictureBox1.Height;
+            for (var i = 0; i < fractal.Length; i++)
+            {
+                fractal[i].Y = h - h / 20 - fractal[i].Y;
+            }
+        }
 
         private void drawFractal(Pen pen, Graphics graphics, Point[] fractal)
         {
-            var h =pictureBox1.Height;
-            fractal[0].Y =h-h/20 - fractal[0].Y;
-            for (var i = 0; i < fractal.Length - 1; i++)
-            {
-                fractal[i+1].Y = h - h / 20 - fractal[i+1].Y;
+            var h = pictureBox1.Height;
+           
+            for (var i = 0; i < fractal.Length-1; i++)
+            {         
                 graphics.DrawLine(pen, fractal[i], fractal[i + 1]);
             }
         }
@@ -133,6 +140,7 @@ namespace Task5
                     if (fractals[mode].Count-1 < i)
                     {
                         fractals[mode].Add(lSystem.Apply(pictureBox1.Width, pictureBox1.Height));
+                        turnOverFractal(fractals[mode].Last());
                     }
                     lSystem.Step();
                 }

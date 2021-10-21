@@ -16,10 +16,12 @@ namespace Task5
         {
             public string str;
             public int initialAngle;
-            public Params(string str, int initialAngle)
+            public int rotateAngle;
+            public Params(string str, int initialAngle, int rotateAngle)
             {
                 this.str = str;
                 this.initialAngle = initialAngle;
+                this.rotateAngle = rotateAngle;
             }
         }
 
@@ -88,7 +90,7 @@ namespace Task5
 
         public  Point[] Apply( int width, int height)
         {
-            return LSystem.Apply(new Params(currentState, initialAngle), width, height);
+            return LSystem.Apply(new Params(currentState, initialAngle, rotateAngle), width, height);
         }
 
         public static Point[] Apply(LSystem.Params p, int width, int height)
@@ -109,7 +111,7 @@ namespace Task5
             {
                 if (c == '+')
                 {
-                    angle += 60;
+                    angle += p.rotateAngle;
                     if (angle > 360)
                     {
                         angle %= 360;
@@ -117,7 +119,7 @@ namespace Task5
                 }
                 if (c == '-')
                 {
-                    angle -= 60;
+                    angle -= p.rotateAngle;
                     if (angle < 0)
                     {
                         angle += 360;
@@ -156,7 +158,7 @@ namespace Task5
             matrix.Translate(-minX, -minY);
             matrix.TransformPoints(arr);
             matrix = new Matrix();
-            matrix.Scale(scaleX, scaleY);
+            matrix.Scale(scale, scale);
             matrix.TransformPoints(arr);
             //matrix.Translate(-scale, -scale);
             //matrix.TransformPoints(arr);

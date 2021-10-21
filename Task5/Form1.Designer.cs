@@ -105,9 +105,9 @@ namespace Task5
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(193, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(252, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(710, 660);
+            this.pictureBox1.Size = new System.Drawing.Size(651, 660);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -148,7 +148,7 @@ namespace Task5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(987, 684);
+            this.ClientSize = new System.Drawing.Size(987, 706);
             this.Controls.Add(this.DecGenerationButton);
             this.Controls.Add(this.IncGenerationButton1);
             this.Controls.Add(this.GenerationLabel);
