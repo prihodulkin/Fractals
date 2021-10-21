@@ -7,3 +7,4 @@ D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.csproj.GenerateResource.ca
 D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.csproj.CoreCompileInputs.cache
 D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.exe
 D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.pdb
+D:\MMCS\Computer Graphics\Task5\Task5\obj\Debug\Task5.StartForm.resources
