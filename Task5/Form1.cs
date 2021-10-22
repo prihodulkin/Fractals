@@ -34,7 +34,7 @@ namespace Task5
             {Mode.Bush, inputPath+"bush.txt" },
         };
 
-        Dictionary<Mode, List<Point []>> fractals;
+        Dictionary<Mode, List<List<Line>>> fractals;
 
         Mode mode = Mode.KochCurve;
         int generation = 0;
@@ -45,10 +45,10 @@ namespace Task5
         public Form1()
         {     
             InitializeComponent();
-            fractals = new Dictionary<Mode, List<Point[]>>();
+            fractals = new Dictionary<Mode, List<List<Line>>>();
             foreach(var m in Enum.GetValues(typeof(Mode)).Cast<Mode>())
             {
-                fractals[m] = new List<Point[]>();
+                fractals[m] = new List <List<Line>> ();
             }
             lSystem = new LSystem(files[mode]);
         }
@@ -106,22 +106,26 @@ namespace Task5
         {
 
         }
-        private void turnOverFractal(Point[] fractal)
-        {
-            var h = pictureBox1.Height;
-            for (var i = 0; i < fractal.Length; i++)
-            {
-                fractal[i].Y = h - h / 20 - fractal[i].Y;
-            }
-        }
+        //private void turnOverFractal(List<Line> fractal)
+        //{
+        //    var h = pictureBox1.Height;
+        //    for (var i = 0; i < fractal.Count; i++)
+        //    {
+        //        for (var j=0;j<2; j++)
+        //        {
+        //            fractal[i].points[j].Y = h - h / 20 - fractal[i].points[j].Y;
+        //        }
+               
+        //    }
+        //}
 
-        private void drawFractal(Pen pen, Graphics graphics, Point[] fractal)
+        private void drawFractal(Pen pen, Graphics graphics, List<Line> fractal)
         {
             var h = pictureBox1.Height;
            
-            for (var i = 0; i < fractal.Length-1; i++)
+            for (var i = 0; i < fractal.Count; i++)
             {         
-                graphics.DrawLine(pen, fractal[i], fractal[i + 1]);
+                graphics.DrawLine(pen, fractal[i].points[0], fractal[i].points[1]);
             }
         }
 
@@ -130,8 +134,6 @@ namespace Task5
             SolidBrush brush = new SolidBrush(Color.Black);
             Pen pen = new Pen(brush);
             Graphics g = e.Graphics;
-           // var h = pictureBox1.Height;
-           // g.DrawLine(pen, new Point(0, h-10), new Point(426, h-10));
             var fractalsCount = fractals[mode].Count;
             if (fractalsCount - 1 < generation)
             {
@@ -141,7 +143,7 @@ namespace Task5
                     if (fractals[mode].Count-1 < i)
                     {
                         fractals[mode].Add(lSystem.Apply(pictureBox1.Width, pictureBox1.Height));
-                        turnOverFractal(fractals[mode].Last());
+                       // turnOverFractal(fractals[mode].Last());
                     }
                     lSystem.Step();
                 }
