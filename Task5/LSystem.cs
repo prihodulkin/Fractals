@@ -9,9 +9,35 @@ using System.Drawing.Drawing2D;
 
 namespace Task5
 {
+    public struct Line
+    {
+        public Point p1;
+        public Point p2;
+
+        Line(Point p1, Point p2)
+        {
+            this.p1 = p1;
+            this.p2 = p2;
+        }
+
+    }
    
     public class LSystem
     {
+        public struct LSystemState
+        {
+            public double X;
+            public double Y;
+            public int Rotate;
+            public LSystemState(double x, double y, int rotate)
+            {
+                X = x;
+                Y = y;
+                Rotate = rotate;
+            }
+        }
+
+
         public struct Params
         {
             public string str;
@@ -107,6 +133,7 @@ namespace Task5
             int minY = 0;
             result.Add(new Point((int)Math.Round(x), (int)Math.Round(y)));
             var angle = p.initialAngle;
+            Stack<LSystemState> stack = new Stack<LSystemState>();
             foreach (var c in p.str)
             {
                 if (c == '+')
@@ -117,7 +144,7 @@ namespace Task5
                         angle %= 360;
                     }
                 }
-                if (c == '-')
+                else if (c == '-')
                 {
                     angle -= p.rotateAngle;
                     if (angle < 0)
@@ -125,7 +152,7 @@ namespace Task5
                         angle += 360;
                     }
                 }
-                if (c == 'F')
+                else if (c == 'F')
                 {
                     x += lineLength * Math.Cos(ConvertToRadians(angle));
                     y += lineLength * Math.Sin(ConvertToRadians(angle));
@@ -146,6 +173,15 @@ namespace Task5
                     {
                         minY = (int)Math.Floor(y);
                     }
+                } else if (c == '[')
+                {
+                    stack.Push(new LSystemState(x, y,angle));
+                } else if(c == ']')
+                {
+                    var state = stack.Pop();
+                    angle = state.Rotate;
+                    x = state.X;
+                    y = state.Y;
                 }
             }
             Matrix matrix = new Matrix();

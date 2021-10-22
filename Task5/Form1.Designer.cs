@@ -38,6 +38,7 @@ namespace Task5
             this.GenerationLabel = new System.Windows.Forms.Label();
             this.IncGenerationButton1 = new System.Windows.Forms.Button();
             this.DecGenerationButton = new System.Windows.Forms.Button();
+            this.BushButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -144,11 +145,24 @@ namespace Task5
             this.DecGenerationButton.UseVisualStyleBackColor = true;
             this.DecGenerationButton.Click += new System.EventHandler(this.DecGenerationButton_Click);
             // 
+            // BushButton
+            // 
+            this.BushButton.AutoSize = true;
+            this.BushButton.Location = new System.Drawing.Point(12, 171);
+            this.BushButton.Name = "BushButton";
+            this.BushButton.Size = new System.Drawing.Size(68, 24);
+            this.BushButton.TabIndex = 9;
+            this.BushButton.TabStop = true;
+            this.BushButton.Text = "Куст";
+            this.BushButton.UseVisualStyleBackColor = true;
+            this.BushButton.CheckedChanged += new System.EventHandler(this.BushButton_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(987, 706);
+            this.Controls.Add(this.BushButton);
             this.Controls.Add(this.DecGenerationButton);
             this.Controls.Add(this.IncGenerationButton1);
             this.Controls.Add(this.GenerationLabel);
@@ -177,6 +191,7 @@ namespace Task5
         private System.Windows.Forms.Label GenerationLabel;
         private System.Windows.Forms.Button IncGenerationButton1;
         private System.Windows.Forms.Button DecGenerationButton;
+        private System.Windows.Forms.RadioButton BushButton;
     }
 }
 

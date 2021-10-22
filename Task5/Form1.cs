@@ -14,12 +14,12 @@ namespace Task5
     {
         enum Mode
         {
-            UserFile,
             KochCurve,
             KochSnow,
             SerpGask,
             HilbertCurve,
-            HosperCurve
+            HosperCurve,
+            Bush
         }
 
         const string inputPath = @".\..\Input\";
@@ -31,6 +31,7 @@ namespace Task5
             {Mode.SerpGask,  inputPath+"serpGask.txt" },
             {Mode.HilbertCurve,  inputPath+"hilbert.txt" },
             {Mode.HosperCurve,  inputPath+"hosper.txt" },
+            {Mode.Bush, inputPath+"bush.txt" },
         };
 
         Dictionary<Mode, List<Point []>> fractals;
@@ -151,6 +152,12 @@ namespace Task5
         private void GenerationLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void BushButton_CheckedChanged(object sender, EventArgs e)
+        {
+            mode = Mode.Bush;
+            Refresh();
         }
     }
 }
