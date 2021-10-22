@@ -28,11 +28,13 @@ namespace Task5
             public double X;
             public double Y;
             public int Rotate;
-            public LSystemState(double x, double y, int rotate)
+            public int level;
+            public LSystemState(double x, double y, int rotate, int lvl)
             {
                 X = x;
                 Y = y;
                 Rotate = rotate;
+                level = lvl;
             }
         }
 
@@ -44,7 +46,6 @@ namespace Task5
         double p = -1;
         int rotateDiviation = 0;
         int stepNum = 0;
-        int level = 0;
         string currentState;
 
         public LSystem(string axiom, Dictionary<char, string> rules, int rotateAngle, int initialAngle)
@@ -63,11 +64,16 @@ namespace Task5
             currentState = axiom;
             rotateAngle = int.Parse(firstLine[1]);
             initialAngle = int.Parse(firstLine[2]);
-            if (firstLine.Length == 5)
+            if (firstLine.Length >= 5)
             {
                 p = double.Parse(firstLine[3]);
                 rotateDiviation = int.Parse(firstLine[4]);
             }
+            //if (firstLine.Length >= 6)
+            //{
+            //    withTreeLevels = firstLine[5] == "1";
+            //}
+           
             rules = new Dictionary<char, string>();
             for (var i = 1; i < lines.Length; i++)
             {
@@ -122,6 +128,7 @@ namespace Task5
             int minY = 0;
             var angle = initialAngle;
             Stack<LSystemState> stack = new Stack<LSystemState>();
+            int level = 0;
             foreach (var c in currentState)
             {
                 if (c == '+')
@@ -147,7 +154,7 @@ namespace Task5
                     }
                 }
                 else if (c == 'F')
-                {
+                {                
                     var p1 = new Point((int)Math.Round(x), (int)Math.Round(y));
                     x += lineLength * Math.Cos(ConvertToRadians(angle));
                     y += lineLength * Math.Sin(ConvertToRadians(angle));
@@ -171,10 +178,11 @@ namespace Task5
                     {
                         minY = (int)Math.Floor(y);
                     }
+                    level++;
                 }
                 else if (c == '[')
                 {
-                    stack.Push(new LSystemState(x, y, angle));
+                    stack.Push(new LSystemState(x, y,  angle, level));
                 }
                 else if (c == ']')
                 {
@@ -182,6 +190,7 @@ namespace Task5
                     angle = state.Rotate;
                     x = state.X;
                     y = state.Y;
+                    level = state.level;
                 }     
             }
             var w = (float)(maxX - minX);

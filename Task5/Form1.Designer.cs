@@ -173,7 +173,7 @@ namespace Task5
             this.Controls.Add(this.KochSnowflakeButton);
             this.Controls.Add(this.KochKurveButton);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Задание 1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

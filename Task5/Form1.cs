@@ -119,12 +119,62 @@ namespace Task5
         //    }
         //}
 
+        private Color[] getColorsForTree(int levels)
+        {
+            if (levels == 0) return new Color[0];
+            if (levels == 1) return new Color[1] { Color.Brown };
+            var brown = Color.Brown;
+            var green = Color.Green;
+            var result = new Color[levels];      
+            levels -= 1;
+            var dR = ( green.R - brown.R) / levels;
+            var dG = (green.G - brown.G) / levels;
+            var dB = (green.B - brown.B) / levels;
+            result[0] = brown;
+            var r = brown.R;
+            var g = brown.G;
+            var b = brown.B;
+
+            for(int i = 1; i < levels+1; i++)
+            {   
+                r += (byte)dR;
+                g += (byte)dG;
+                b += (byte)dB;
+                result[i] = Color.FromArgb(r,g,b);
+            }
+            return result;
+        }
+
+        private float[] getThikness(int levels)
+        {
+            var result = new float[levels];
+            for(int i = levels; i > 0; i--)
+            {
+                result[levels - i] = i * (float)1.0 / levels * 10;
+            }
+            return result;
+        }
+
         private void drawFractal(Pen pen, Graphics graphics, List<Line> fractal)
         {
-            var h = pictureBox1.Height;
-           
             for (var i = 0; i < fractal.Count; i++)
             {         
+                graphics.DrawLine(pen, fractal[i].points[0], fractal[i].points[1]);
+            }
+        }
+
+        private void drawTree(Graphics graphics, List<Line> fractal)
+        {
+            if (generation == 0) return;
+            SolidBrush brush = new SolidBrush(Color.Black);
+            var maxLevel =fractal.Max(l => l.level);
+            Pen pen = new Pen(brush);
+            var colors = getColorsForTree(maxLevel/2+1);
+            var thickness = getThikness(maxLevel/2+1);
+            for (var i = 0; i < fractal.Count; i++)
+            {
+                pen.Color = colors[fractal[i].level/2];
+                pen.Width = thickness[fractal[i].level/2];
                 graphics.DrawLine(pen, fractal[i].points[0], fractal[i].points[1]);
             }
         }
@@ -143,12 +193,20 @@ namespace Task5
                     if (fractals[mode].Count-1 < i)
                     {
                         fractals[mode].Add(lSystem.Apply(pictureBox1.Width, pictureBox1.Height));
-                       // turnOverFractal(fractals[mode].Last());
                     }
                     lSystem.Step();
                 }
             }
-            drawFractal(pen, g, fractals[mode][generation]);
+            // drawFractal(pen, g, fractals[mode][generation]);
+            if (mode == Mode.Bush)
+            {
+                drawTree(g, fractals[mode][generation]);
+            }
+            else
+            {
+                drawFractal(pen, g, fractals[mode][generation]);
+            }
+
         }
 
         private void GenerationLabel_Click(object sender, EventArgs e)
