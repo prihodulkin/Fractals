@@ -9,26 +9,42 @@ using System.Drawing.Drawing2D;
 
 namespace Task5
 {
-   
+    public struct Line
+    {
+       public Point[] points;
+       public int level;
+       public Line(Point[] pts, int lvl)
+       {
+            points = pts;
+            level = lvl;
+       }
+    }
+
+
     public class LSystem
     {
-        public struct Params
+        public struct LSystemState
         {
-            public string str;
-            public int initialAngle;
-            public int rotateAngle;
-            public Params(string str, int initialAngle, int rotateAngle)
+            public double X;
+            public double Y;
+            public int Rotate;
+            public int level;
+            public LSystemState(double x, double y, int rotate, int lvl)
             {
-                this.str = str;
-                this.initialAngle = initialAngle;
-                this.rotateAngle = rotateAngle;
+                X = x;
+                Y = y;
+                Rotate = rotate;
+                level = lvl;
             }
         }
+
 
         string axiom;
         Dictionary<char, string> rules;
         int rotateAngle;
         int initialAngle;
+        double p = -1;
+        int rotateDiviation = 0;
         int stepNum = 0;
         string currentState;
 
@@ -48,6 +64,16 @@ namespace Task5
             currentState = axiom;
             rotateAngle = int.Parse(firstLine[1]);
             initialAngle = int.Parse(firstLine[2]);
+            if (firstLine.Length >= 5)
+            {
+                p = double.Parse(firstLine[3]);
+                rotateDiviation = int.Parse(firstLine[4]);
+            }
+            //if (firstLine.Length >= 6)
+            //{
+            //    withTreeLevels = firstLine[5] == "1";
+            //}
+           
             rules = new Dictionary<char, string>();
             for (var i = 1; i < lines.Length; i++)
             {
@@ -77,7 +103,7 @@ namespace Task5
                 else
                 {
                     stringBuilder.Append(c);
-                }         
+                }
             }
             currentState = stringBuilder.ToString().Trim();
             ++stepNum;
@@ -88,48 +114,54 @@ namespace Task5
             return (Math.PI / 180) * angle;
         }
 
-        public  Point[] Apply( int width, int height)
-        {
-            return LSystem.Apply(new Params(currentState, initialAngle, rotateAngle), width, height);
-        }
-
-        public static Point[] Apply(LSystem.Params p, int width, int height)
+        public List<Line> Apply(int width, int height)
         {
             int lineLength = 1000;
             width -= width / 10;
-            height -= height / 10;
-            List<Point> result = new List<Point>();
+            height -= height/10;
+            List<Line> result = new List<Line>();
             double x = 0;
             double y = 0;
             int maxX = 0;
             int minX = 0;
             int maxY = 0;
             int minY = 0;
-            result.Add(new Point((int)Math.Round(x), (int)Math.Round(y)));
-            var angle = p.initialAngle;
-            foreach (var c in p.str)
+            var angle = initialAngle;
+            Stack<LSystemState> stack = new Stack<LSystemState>();
+            int level = 0;
+            foreach (var c in currentState)
             {
                 if (c == '+')
                 {
-                    angle += p.rotateAngle;
+                    Random random = new Random();
+                    var dAngle = 0;
+                    if (random.NextDouble() < p)
+                    {
+                        dAngle = ((random.Next() % 2) * 2 - 1) *(random.Next()% rotateDiviation);
+                    }
+                    angle += rotateAngle+dAngle;
                     if (angle > 360)
                     {
                         angle %= 360;
                     }
                 }
-                if (c == '-')
+                else if (c == '-')
                 {
-                    angle -= p.rotateAngle;
+                    angle -= rotateAngle;
                     if (angle < 0)
                     {
                         angle += 360;
                     }
                 }
-                if (c == 'F')
-                {
+                else if (c == 'F')
+                {                
+                    var p1 = new Point((int)Math.Round(x), (int)Math.Round(y));
                     x += lineLength * Math.Cos(ConvertToRadians(angle));
                     y += lineLength * Math.Sin(ConvertToRadians(angle));
-                    result.Add(new Point((int)Math.Round(x), (int)Math.Round(y)));
+                    var p2 = new Point((int)Math.Round(x), (int)Math.Round(y));
+
+                    result.Add( new Line(new Point[] { p1, p2 }, level));
+
                     if (x > maxX)
                     {
                         maxX = (int)Math.Ceiling(x);
@@ -146,29 +178,38 @@ namespace Task5
                     {
                         minY = (int)Math.Floor(y);
                     }
+                    level++;
                 }
+                else if (c == '[')
+                {
+                    stack.Push(new LSystemState(x, y,  angle, level));
+                }
+                else if (c == ']')
+                {
+                    var state = stack.Pop();
+                    angle = state.Rotate;
+                    x = state.X;
+                    y = state.Y;
+                    level = state.level;
+                }     
             }
-            Matrix matrix = new Matrix();
             var w = (float)(maxX - minX);
             var h = (float)(maxY - minY);
             var scaleX = w > 0 ? (float)width / w : 1;
             var scaleY = h > 0 ? (float)height / h : 1;
             var scale = Math.Min(scaleX, scaleY);
-            var arr = result.ToArray();
-            matrix.Translate(-minX, -minY);
-            matrix.TransformPoints(arr);
-            matrix = new Matrix();
-            matrix.Scale(scale, scale);
-            matrix.TransformPoints(arr);
-            //matrix.Translate(-scale, -scale);
-            //matrix.TransformPoints(arr);
-            //matrix.Translate(scale, scale);
-            //matrix.Scale(scaleX, scaleX);
-           
-            return arr;
+            Matrix translateMatrix = new Matrix();
+            var scaleMatrix = new Matrix();
+            scaleMatrix.Scale(scale, scale);
+            translateMatrix.Translate(-minX, -minY);
+            foreach (var line in result)
+            {
+                translateMatrix.TransformPoints(line.points);
+                scaleMatrix.TransformPoints(line.points);
+                line.points[0].Y = height - line.points[0].Y;
+                line.points[1].Y = height - line.points[1].Y;
+            }
+            return result;
         }
-
-    }
-
-
+    } 
 }
