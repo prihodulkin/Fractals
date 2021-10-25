@@ -44,10 +44,13 @@ namespace Task5
             }
             segments = worked;
             g.Clear(BackColor);
+            var points = new List<Point>();
             foreach (var s in segments)
             {
-                g.DrawLine(Pens.Black, s.begin, s.end);
+                points.Add(s.begin);
+                points.Add(s.end);
             }
+            g.DrawLines(Pens.Black, points.ToArray());
             next_step_btn.Enabled = true;
         }
 
@@ -58,6 +61,7 @@ namespace Task5
             segments.Clear();
             g.Clear(BackColor);
             next_step_btn.Enabled = false;
+            
         }
 
         private void minus_btn_Click(object sender, EventArgs e)

@@ -78,7 +78,7 @@ namespace Task5
             // next_step_btn
             // 
             this.next_step_btn.Enabled = false;
-            this.next_step_btn.Location = new System.Drawing.Point(12, 98);
+            this.next_step_btn.Location = new System.Drawing.Point(12, 94);
             this.next_step_btn.Name = "next_step_btn";
             this.next_step_btn.Size = new System.Drawing.Size(125, 27);
             this.next_step_btn.TabIndex = 5;
@@ -88,7 +88,7 @@ namespace Task5
             // 
             // clear_btn
             // 
-            this.clear_btn.Location = new System.Drawing.Point(12, 145);
+            this.clear_btn.Location = new System.Drawing.Point(12, 127);
             this.clear_btn.Name = "clear_btn";
             this.clear_btn.Size = new System.Drawing.Size(125, 27);
             this.clear_btn.TabIndex = 6;
@@ -100,7 +100,7 @@ namespace Task5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1368, 645);
+            this.ClientSize = new System.Drawing.Size(1473, 838);
             this.Controls.Add(this.clear_btn);
             this.Controls.Add(this.next_step_btn);
             this.Controls.Add(this.minus_btn);
@@ -114,6 +114,10 @@ namespace Task5
             this.PerformLayout();
 
         }
+
+
+
+
 
 
 
